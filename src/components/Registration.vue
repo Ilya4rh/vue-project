@@ -26,11 +26,9 @@
       />
       <input class="controll name" type="text" placeholder="Имя" />
       <input class="controll city" type="text" placeholder="Город" />
-      <input class="controll password" type="password" placeholder="Пароль" />
     </div>
     <div class="buttons-container">
       <button class="signIn btn">Зарегестрироваться</button>
-      <button class="logIn btn">Авторизация</button>
     </div>
   </section>
 </template>
@@ -141,6 +139,7 @@ export default {
     justify-content: center;
     gap: 20px;
     .btn {
+      width: 90%;
       border: none;
       border-radius: 10px;
       background: rgba(41, 41, 41, 1);
