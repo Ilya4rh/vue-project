@@ -1,15 +1,15 @@
-<template>
+﻿<template>
   <section class="registration-sec">
     <div class="article-container">
       <img
-        class="title_icon"
-        src="../assets/cofee_mob_logo.svg"
-        width="50"
-        height="50"
+          class="title_icon"
+          src="../assets/cofee_mob_logo.svg"
+          width="50"
+          height="50"
       />
       <div class="logIn-container">
         <p class="question-mark">Есть аккаунт?</p>
-        <router-link to='/auth' class="auth-btn">
+        <router-link to='/admin/auth' class="auth-btn">
           <p class="auth-btn__title">авторизация</p>
           <img class="auth-btn__icon" src="../assets/arrow.svg" height="10" />
         </router-link>
@@ -19,13 +19,11 @@
       <h1 class="title">Регистрация</h1>
     </div>
     <div class="controls-container">
-      <input
-        class="controll phone-number"
-        type="text"
-        placeholder="Номер телефона"
-      />
-      <input class="controll name" type="text" placeholder="Имя" />
+      <input class="controll login" type="text" placeholder="Логин" />
+      <input class="controll name" type="text" placeholder="Название заведения" />
+      <input class="controll role" type="text" placeholder="Роль" />  <!-- Надо сделать выпадашкой -->
       <input class="controll city" type="text" placeholder="Город" />
+      <input class="controll " type="text" placeholder="Пароль"/>
     </div>
     <div class="buttons-container">
       <button class="signIn btn">Зарегистрироваться</button>
@@ -34,7 +32,7 @@
 </template>
 <script>
 export default {
-  name: "RegistrationComponent",
+  name: "RegistrationAdminComponent",
   props: {
     msg: String,
   },

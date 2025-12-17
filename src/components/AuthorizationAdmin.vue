@@ -1,43 +1,36 @@
-<template>
+﻿<template>
   <section class="registration-sec">
     <div class="article-container">
       <img
-        class="title_icon"
-        src="../assets/cofee_mob_logo.svg"
-        width="50"
-        height="50"
+          class="title_icon"
+          src="../assets/cofee_mob_logo.svg"
+          width="50"
+          height="50"
       />
       <div class="logIn-container">
-        <p class="question-mark">Есть аккаунт?</p>
-        <router-link to='/auth' class="auth-btn">
-          <p class="auth-btn__title">авторизация</p>
+        <p class="question-mark">Нет аккаунта?</p>
+        <router-link to='/admin' class="auth-btn">
+          <p class="auth-btn__title">регистрация</p>
           <img class="auth-btn__icon" src="../assets/arrow.svg" height="10" />
         </router-link>
       </div>
     </div>
     <div class="title-container">
-      <h1 class="title">Регистрация</h1>
+      <h1 class="title">Авторизация</h1>
     </div>
+
     <div class="controls-container">
-      <input
-        class="controll phone-number"
-        type="text"
-        placeholder="Номер телефона"
-      />
-      <input class="controll name" type="text" placeholder="Имя" />
-      <input class="controll city" type="text" placeholder="Город" />
+      <input class="controll phone-number" type="text" placeholder="Логин"/>
+      <input class="controll" type="text" placeholder="Пароль"/>
     </div>
     <div class="buttons-container">
-      <button class="signIn btn">Зарегистрироваться</button>
+      <button class="signIn btn">Войти</button>
     </div>
   </section>
 </template>
 <script>
 export default {
-  name: "RegistrationComponent",
-  props: {
-    msg: String,
-  },
+  name: "AuthorizationAdminComponent",
 };
 </script>
 <style lang="scss">
