@@ -20,7 +20,6 @@
     </div>
 
     <div class="controls-container">
-      <input class="controll name" type="text" placeholder="Логин" />
       <input
         class="controll phone-number"
         type="text"
@@ -28,8 +27,7 @@
       />
     </div>
     <div class="buttons-container">
-      <button class="signIn btn">Зарегестрироваться</button>
-      <button class="logIn btn">Авторизация</button>
+      <button class="signIn btn">Получить код</button>
     </div>
   </section>
 </template>
@@ -137,6 +135,7 @@ export default {
     justify-content: center;
     gap: 20px;
     .btn {
+      width: 90%;
       border: none;
       border-radius: 10px;
       background: rgba(41, 41, 41, 1);
