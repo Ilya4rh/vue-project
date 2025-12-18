@@ -4,14 +4,14 @@
       <img
         class="title_icon"
         src="../assets/cofee_mob_logo.svg"
+        alt="лого"
         width="50"
-        height="50"
-      />
+        height="50"/>
       <div class="logIn-container">
         <p class="question-mark">Нет аккаунта?</p>
         <router-link to='/' class="auth-btn">
           <p class="auth-btn__title">регистрация</p>
-          <img class="auth-btn__icon" src="../assets/arrow.svg" height="10" />
+          <img class="auth-btn__icon" alt="стрелка" src="../assets/arrow.svg" height="10" />
         </router-link>
       </div>
     </div>
@@ -24,18 +24,60 @@
         class="controll phone-number"
         type="text"
         placeholder="Номер телефона"
+        v-model="phone"
       />
     </div>
     <div class="buttons-container">
-      <button class="signIn btn">Получить код</button>
+      <button class="signIn btn" @click="getCode()">Получить код</button>
     </div>
   </section>
 </template>
 <script>
+import {clientStore} from "@/stores/ClientStore";
+import router from "@/router";
+
 export default {
   name: "AuthorizationComponent",
+  
+  data() {
+    return {
+      phone: ''
+    }
+  },
+  methods: {
+    async getCode()
+    {
+      const store = clientStore();
+
+      if (!this.phone) {
+        alert('Введите номер телефона')
+        return
+      }
+
+      store.update({phone: this.phone});
+
+      try {
+        await fetch(
+            `/api/v1/auth/${encodeURIComponent(this.phone)}`,
+            {
+              method: 'GET',
+              headers: {
+                'accept': 'application/json'
+              }
+            }
+        );
+
+        await router.push("/auth/code")
+
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+  }
 };
 </script>
+
 <style lang="scss">
 .registration-sec {
   display: flex;
