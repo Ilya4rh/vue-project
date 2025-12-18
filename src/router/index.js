@@ -7,7 +7,7 @@ import RegistrationAdminComponent from '../components/RegistrationAdmin.vue';
 import MainClientPageComponent from '../pages/MainClientPage.vue';
 import EstablishmentPageComponent from '../pages/EstablishmentPage.vue'
 import AddIdeaPageComponent from '../pages/AddIdeaPage.vue';
-import PersonalAccountClientComponent from '../pages/PersonalAccountClient.vue'
+import PersonalAccountClientComponent from '../pages/PersonalAccountClient.vue';
 import CoffeeShopPageComponent from "@/pages/CoffeeShopPage.vue";
 
 const routes = [
@@ -19,7 +19,7 @@ const routes = [
   { path: '/mainClient', name: 'MainClientPage', component: MainClientPageComponent},
   { path: '/establishmentClientPage', name: 'EstablishmentClientPage', component: EstablishmentPageComponent},
   { path: '/addIdea', name: 'AddIdeaClientPage', component: AddIdeaPageComponent},
-  { path: '/personalAccClient', name: 'PersonalAccountClient', component: PersonalAccountClientComponent}
+  { path: '/personalAccClient', name: 'PersonalAccountClient', component: PersonalAccountClientComponent},
   { path: '/coffeeShopPage', name: 'CoffeeShopPageComponent', component: CoffeeShopPageComponent}
 ]
 
