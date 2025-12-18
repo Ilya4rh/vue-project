@@ -1,32 +1,45 @@
 <template>
   <section class="card-sec">
     <div class="article-container">
-      <p class="article-title">{{ coffeeInfo.coffeeName }}</p>
-      <div class="adress-container">
-        <img src="../../assets/point_map.svg" width="10" height="15" />
-        <p>{{ coffeeInfo.coffeeAdress }}</p>
-      </div>
+      <p class="article-title">{{ ideaInfo.ideaName }}</p>
+      <p class="article-status">{{ ideaInfo.ideaStatus }}</p>
     </div>
     <div class="description-container">
-      {{ coffeeInfo.cofeeDescription }}
+      {{ ideaInfo.ideaDescription }}
     </div>
+    <img
+        class="like-container"
+      v-if="ideaInfo.ideaLiked"
+      src="../../assets/heart_fill.svg"
+      width="15"
+      height="15"
+    />
+    <img
+    class="like-container"
+      v-if="!ideaInfo.ideaLiked"
+      src="../../assets/heart_stroke.svg"
+      width="15"
+      height="15"
+    />
   </section>
 </template>
 <script>
-import ICoffeeInfo from "../../models";
+import IdeaInfo from "../../models";
 export default {
   name: "CoffeeCardComponent",
   props: {
-    coffeeInfo: ICoffeeInfo,
+    ideaInfo: IdeaInfo,
   },
   methods: {
     sendDataCoffee() {
       this.$emit("onClickCard", {
-        coffeeInfo: {
-          id: this.coffeeInfo.coffeeId,
+        ideaInfo: {
+          id: this.ideaInfo.ideaId,
           name: this.coffeeInfo.coffeeName,
-          adress: this.coffeeInfo.coffeeAdress,
-          description: this.coffeeInfo.cofeeDescription,
+          date: this.ideaInfo.ideaDate,
+          description: this.ideaInfo.ideaDescription,
+          status: this.ideaInfo.ideaStatus,
+          isLiked: this.ideaInfo.ideaLiked,
         },
       });
     },
@@ -52,26 +65,16 @@ export default {
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction: column;
-    .adress-container {
-      border-radius: 0px 0px 10px 10px;
-      background: rgba(94, 53, 28, 0.4);
-      width: fit-content;
-      height: fit-content;
-      gap: 12px;
-      padding-right: 10px;
-      padding-left: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      p {
-        color: rgba(0, 0, 0, 1);
-        font-family: Rubik;
-        font-size: 12px;
-        font-weight: 400;
-        letter-spacing: 0%;
-        text-align: left;
-      }
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .article-status {
+      color: rgba(0, 0, 0, 1);
+      font-family: Rubik;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 5%;
+      text-align: right;
     }
     .article-title {
       margin: 0;
@@ -82,7 +85,8 @@ export default {
       font-weight: 400;
       letter-spacing: 5%;
       text-align: left;
-      max-width: 95%;
+      width: 65%;
+      max-width: 65%;
     }
   }
   .description-container {
@@ -90,6 +94,9 @@ export default {
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  .like-container{
+    margin-left: auto;
   }
 }
 </style>

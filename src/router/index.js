@@ -5,6 +5,7 @@ import AuthorizationAdminComponent from '../components/AuthorizationAdmin.vue';
 import AcceptationCodePageComponent from '../components/AcceptationCodePage.vue';
 import RegistrationAdminComponent from '../components/RegistrationAdmin.vue';
 import MainClientPageComponent from '../pages/MainClientPage.vue';
+import EstablishmentPageComponent from '../pages/EstablishmentPage.vue'
 
 const routes = [
   { path: '/', name: 'Registration', component: RegistrationComponent },
@@ -12,7 +13,8 @@ const routes = [
   { path: '/auth/code', name: 'AcceptationCodePage', component: AcceptationCodePageComponent },
   { path: '/admin/auth', name: 'AuthorizationAdmin', component: AuthorizationAdminComponent },
   { path: '/admin', name: 'RegistrationAdmin', component: RegistrationAdminComponent },
-  { path: '/mainClient', name: 'MainClientPage', component: MainClientPageComponent}
+  { path: '/mainClient', name: 'MainClientPage', component: MainClientPageComponent},
+  { path: '/establishmentClientPage', name: 'EstablishmentClientPage', component: EstablishmentPageComponent}
 ]
 
 const router = createRouter({
