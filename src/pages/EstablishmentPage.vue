@@ -1,9 +1,9 @@
 <template>
   <section class="article-sec">
-    <div class="add_idea">
+    <router-link to="/addIdea" class="add_idea">
       <p class="add_idea_title">предложить идею</p>
       <img class="add_idea_icon" src="../assets/add.svg" />
-    </div>
+    </router-link>
     <router-link to="/mainClient" class="auth-btn">
       <p class="auth-btn__title">на главную</p>
       <img
@@ -105,6 +105,8 @@ export default {
   align-items: center;
   margin-bottom: 36px;
   .add_idea {
+    text-decoration: none;
+    color: black;
     border-radius: 0px 0px 20px 0px;
     margin-left: -8px;
     background: rgba(255, 255, 255, 0.6);
