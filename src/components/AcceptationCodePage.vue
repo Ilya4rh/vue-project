@@ -38,6 +38,7 @@ export default {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
+                name: store.dto.name,
                 otp: store.dto.code,
                 phone: store.dto.phone
               })
