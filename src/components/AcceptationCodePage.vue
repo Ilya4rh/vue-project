@@ -10,6 +10,7 @@
 
 <script>
 import {clientStore} from "@/stores/ClientStore";
+import { getCurrentUserInfo } from "@/services/ClientService"
 
 export default {
   name: "AcceptationCodePageComponent",
@@ -39,7 +40,7 @@ export default {
               },
               body: JSON.stringify({
                 name: store.dto.name,
-                otp: store.dto.code,
+                otp: this.code,
                 phone: store.dto.phone
               })
             }
@@ -50,6 +51,11 @@ export default {
         }
 
         const data = await response.json()
+
+        store.update({code: this.code, access_token: data.access_token, refresh_token: data.refresh_token});
+        
+        await getCurrentUserInfo();
+        
         console.log(data)
       } catch (error) {
         console.error(error)
