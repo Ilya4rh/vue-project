@@ -4,6 +4,7 @@
       <img
         class="title_icon"
         src="../assets/cofee_mob_logo.svg"
+        alt="лого"
         width="50"
         height="50"
       />
@@ -11,7 +12,7 @@
         <p class="question-mark">Есть аккаунт?</p>
         <router-link to='/auth' class="auth-btn">
           <p class="auth-btn__title">авторизация</p>
-          <img class="auth-btn__icon" src="../assets/arrow.svg" height="10" />
+          <img class="auth-btn__icon" alt="стрелка" src="../assets/arrow.svg" height="10" />
         </router-link>
       </div>
     </div>
@@ -23,21 +24,66 @@
         class="controll phone-number"
         type="text"
         placeholder="Номер телефона"
+        v-model="phone"
       />
-      <input class="controll name" type="text" placeholder="Имя" />
+      <input class="controll name" type="text" placeholder="Имя" v-model="name" />
       <input class="controll city" type="text" placeholder="Город" />
     </div>
     <div class="buttons-container">
-      <button class="signIn btn">Зарегистрироваться</button>
+      <button class="signIn btn" @click="getCode()">Зарегистрироваться</button>
     </div>
   </section>
 </template>
 <script>
+import {clientStore} from "@/stores/ClientStore";
+import router from "@/router";
+
 export default {
   name: "RegistrationComponent",
   props: {
     msg: String,
   },
+  data() {
+    return {
+      phone: '',
+      name: ''
+    }
+  },
+  methods: {
+    async getCode()
+    {
+      const store = clientStore();
+
+      if (!this.phone) {
+        alert('Введите номер телефона')
+        return
+      }
+
+      if (!this.name) {
+        alert('Введите имя')
+        return
+      }
+
+      store.update({phone: this.phone, name: this.name});
+
+      try {
+        await fetch(
+            `/api/v1/auth/${encodeURIComponent(this.phone)}`,
+            {
+              method: 'GET',
+              headers: {
+                'accept': 'application/json'
+              }
+            }
+        );
+
+        await router.push("/auth/code")
+        
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }
 };
 </script>
 <style lang="scss">
