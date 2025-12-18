@@ -20,17 +20,67 @@
     </div>
 
     <div class="controls-container">
-      <input class="controll phone-number" type="text" placeholder="Логин"/>
-      <input class="controll" type="text" placeholder="Пароль"/>
+      <input class="controll phone-number" type="text" placeholder="Логин" v-model="login"/>
+      <input class="controll" type="text" placeholder="Пароль" v-model="password"/>
     </div>
     <div class="buttons-container">
-      <button class="signIn btn">Войти</button>
+      <button class="signIn btn" @click="entry()">Войти</button>
     </div>
   </section>
 </template>
 <script>
+import {adminStore} from "@/stores/AdminStore";
+
 export default {
   name: "AuthorizationAdminComponent",
+  data() {
+    return {
+      login: '',
+      password: ''
+    }
+  },
+  methods: {
+    async entry() {
+      const store = adminStore();
+
+      if (!this.login) {
+        alert('Введите логин')
+        return
+      }
+      if (!this.password) {
+        alert('Введите пароль')
+        return
+      }
+
+      store.update({login: this.login, password: this.password});
+
+      try {
+        const response = await fetch(
+            `/api/v1/auth/login/admin`,
+            {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                login: store.dto.login,
+                password: store.dto.password
+              })
+            }
+        )
+
+        if (!response.ok) {
+          console.log('Ошибка запроса')
+        }
+
+        const data = await response.json()
+        console.log(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }
 };
 </script>
 <style lang="scss">
