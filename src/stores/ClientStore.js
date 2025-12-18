@@ -3,9 +3,12 @@
 export const clientStore = defineStore('client', {
     state: () => ({
         dto: {
+            id: '',
             name: '',
             phone: '',
-            code: ''
+            code: '',
+            access_token: '',
+            refresh_token: '',
         }
     }),
 
@@ -15,9 +18,12 @@ export const clientStore = defineStore('client', {
         },
         reset() {
             this.dto = {
+                id: '',
                 name: '',
                 phone: '',
-                code: ''
+                code: '',
+                access_token: '',
+                refresh_token: '',
             }
         }
     }
