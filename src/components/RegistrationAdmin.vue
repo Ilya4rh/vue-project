@@ -4,6 +4,7 @@
       <img
           class="title_icon"
           src="../assets/cofee_mob_logo.svg"
+          alt="logo"
           width="50"
           height="50"
       />
@@ -11,7 +12,7 @@
         <p class="question-mark">Есть аккаунт?</p>
         <router-link to='/admin/auth' class="auth-btn">
           <p class="auth-btn__title">авторизация</p>
-          <img class="auth-btn__icon" src="../assets/arrow.svg" height="10" />
+          <img class="auth-btn__icon" src="../assets/arrow.svg" alt="стрелка" height="10"/>
         </router-link>
       </div>
     </div>
@@ -19,23 +20,84 @@
       <h1 class="title">Регистрация</h1>
     </div>
     <div class="controls-container">
-      <input class="controll login" type="text" placeholder="Логин" />
-      <input class="controll name" type="text" placeholder="Название заведения" />
-      <input class="controll role" type="text" placeholder="Роль" />  <!-- Надо сделать выпадашкой -->
-      <input class="controll city" type="text" placeholder="Город" />
-      <input class="controll " type="text" placeholder="Пароль"/>
+      <input class="controll login" type="text" placeholder="Логин" v-model="login"/>
+      <input class="controll name" type="text" placeholder="Название заведения" v-model="coffeeShopName"/>
+      <input class="controll city" type="text" placeholder="Город" v-model="city"/>
+      <input class="controll " type="text" placeholder="Пароль" v-model="password"/>
     </div>
     <div class="buttons-container">
-      <button class="signIn btn">Зарегистрироваться</button>
+      <button class="signIn btn" @click="registration()">Зарегистрироваться</button>
     </div>
   </section>
 </template>
 <script>
+import {adminStore} from "@/stores/AdminStore";
+
 export default {
   name: "RegistrationAdminComponent",
   props: {
     msg: String,
   },
+  data() {
+    return {
+      login: '',
+      coffeeShopName: '',
+      city: '',
+      password: ''
+    }
+  },
+  methods: {
+    async registration() {
+      const store = adminStore();
+
+      if (!this.login) {
+        alert('Введите логин')
+        return
+      }
+      if (!this.coffeeShopName) {
+        alert('Введите название')
+        return
+      }
+      if (!this.city) {
+        alert('Введите город')
+        return
+      }
+      if (!this.password) {
+        alert('Введите пароль')
+        return
+      }
+
+      store.update({login: this.login, coffeeShopName: this.coffeeShopName, city: this.city, password: this.password});
+
+      try {
+        const response = await fetch(
+            `/api/v1/auth/register/admin`,
+            {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                address: store.dto.city,
+                coffee_shop_name: store.dto.coffeeShopName,
+                login: store.dto.login,
+                password: store.dto.password
+              })
+            }
+        )
+
+        if (!response.ok) {
+          console.log('Ошибка запроса')
+        }
+
+        const data = await response.json()
+        console.log(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }
 };
 </script>
 <style lang="scss">
@@ -44,6 +106,7 @@ export default {
   flex-direction: column;
   margin: 0 auto;
   width: 100%;
+
   .article-container {
     padding: 0;
     justify-content: space-between;
@@ -51,15 +114,18 @@ export default {
     width: 96%;
     max-width: 96%;
     align-items: center;
+
     .logIn-container {
       display: flex;
       align-items: center;
       gap: 12px;
       width: 52%;
       max-width: 52%;
+
       .question-mark {
         color: rgba(94, 53, 28, 1);
       }
+
       .auth-btn {
         width: 41%;
         max-width: 41%;
@@ -73,17 +139,21 @@ export default {
         border: none;
         padding: 0;
         margin: 0;
+
         &:hover {
           outline: 2px solid rgba(255, 255, 255, 1);
         }
+
         &:active {
           outline: 2px solid rgba(255, 255, 255, 1);
           border-radius: 10px;
           background: rgba(154, 138, 138, 1);
         }
+
         .auth-btn__icon {
           background: transparent;
         }
+
         .auth-btn__title {
           background: transparent;
           color: white;
@@ -94,6 +164,7 @@ export default {
       }
     }
   }
+
   .title-container {
     width: 96%;
     max-width: 96%;
@@ -102,10 +173,12 @@ export default {
     align-items: center;
     justify-content: center;
     margin-top: 25%;
+
     .title {
       color: rgba(94, 53, 28, 1);
     }
   }
+
   .controls-container {
     width: 96%;
     max-width: 96%;
@@ -113,21 +186,25 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 17px;
+
     .controll {
       border: none;
       border-radius: 10px;
       background: rgba(94, 53, 28, 1);
       padding: 12px 26px 13px 14px;
       color: white;
+
       &:hover {
         box-shadow: inset 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
       }
+
       &:focus,
       &:active {
         outline: 2px solid rgba(255, 255, 255, 1);
       }
     }
   }
+
   .buttons-container {
     width: 96%;
     max-width: 96%;
@@ -136,6 +213,7 @@ export default {
     align-items: center;
     justify-content: center;
     gap: 20px;
+
     .btn {
       width: 90%;
       border: none;
@@ -144,9 +222,11 @@ export default {
       padding: 15px;
       color: white;
       font-size: 14px;
+
       &:hover {
         outline: 2px solid rgba(255, 255, 255, 1);
       }
+
       &:active {
         outline: 2px solid rgba(255, 255, 255, 1);
         border-radius: 10px;
