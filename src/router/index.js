@@ -10,6 +10,7 @@ import AddIdeaPageComponent from '../pages/AddIdeaPage.vue';
 import PersonalAccountClientComponent from '../pages/PersonalAccountClient.vue';
 import CoffeeShopPageComponent from "@/pages/CoffeeShopPage.vue";
 import CitePageAdminComponent from "../pages/CitePageAdmin.vue"
+import IdeaPageComponent from "@/pages/IdeaPage.vue";
 
 const routes = [
   { path: '/', name: 'Registration', component: RegistrationComponent },
@@ -23,6 +24,7 @@ const routes = [
   { path: '/personalAccClient', name: 'PersonalAccountClient', component: PersonalAccountClientComponent},
   { path: '/coffeeShopPage', name: 'CoffeeShopPageComponent', component: CoffeeShopPageComponent},
   { path: '/citePageAdmin', name: 'CitePageAdmin', component: CitePageAdminComponent},
+  { path: '/ideaPage', name: 'IdeaPageComponent', component: IdeaPageComponent}
 ]
 
 const router = createRouter({
