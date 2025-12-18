@@ -7,6 +7,7 @@ import RegistrationAdminComponent from '../components/RegistrationAdmin.vue';
 import MainClientPageComponent from '../pages/MainClientPage.vue';
 import EstablishmentPageComponent from '../pages/EstablishmentPage.vue'
 import AddIdeaPageComponent from '../pages/AddIdeaPage.vue';
+import PersonalAccountClientComponent from '../pages/PersonalAccountClient.vue'
 
 const routes = [
   { path: '/', name: 'Registration', component: RegistrationComponent },
@@ -17,6 +18,7 @@ const routes = [
   { path: '/mainClient', name: 'MainClientPage', component: MainClientPageComponent},
   { path: '/establishmentClientPage', name: 'EstablishmentClientPage', component: EstablishmentPageComponent},
   { path: '/addIdea', name: 'AddIdeaClientPage', component: AddIdeaPageComponent},
+  { path: '/personalAccClient', name: 'PersonalAccountClient', component: PersonalAccountClientComponent}
 ]
 
 const router = createRouter({
