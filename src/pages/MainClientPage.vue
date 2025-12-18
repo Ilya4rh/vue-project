@@ -14,7 +14,12 @@
       </div>
     </div>
   </section>
-  <CofeeCardComponent :coffeeInfo="defaultCofee" />
+  <CofeeCardComponent
+    class="cofee-card"
+    v-for="defaultCofee in defaultCoffeesArr"
+    :key="defaultCofee.coffeeId"
+    :coffeeInfo="defaultCofee"
+  />
 </template>
 <script>
 import CofeeCardComponent from "../components/ui-kit-components/CoffeCardInfo.vue";
@@ -28,16 +33,29 @@ export default {
         phoneNumber: "+792564567465",
         city: "Екатеринбург",
       },
-      defaultCofee: {
-        coffeeName: "CoffeMania",
-        coffeeAdress: "Mira, 19",
-        cofeeDescription: "Simple Coffee InfoSimple Coffee InfoSimple",
-      },
+      defaultCoffeesArr: [
+        {
+          cofeeId: "1",
+          coffeeName: "CoffeMania",
+          coffeeAdress: "Mira, 19",
+          cofeeDescription: "Simple Coffee InfoSimple Coffee InfoSimple",
+        },
+        {
+          cofeeId: "2",
+          coffeeName: "CoffeMania2",
+          coffeeAdress: "Mira, 119",
+          cofeeDescription:
+            "Simple Coffee InfoSimple Coffee InfoSimpleSimple Coffee InfoSimple Coffee InfoSimpleSimple Coffee InfoSimple Coffee InfoSimple",
+        },
+      ],
     };
   },
 };
 </script>
 <style lang="scss">
+.cofee-card {
+  margin-bottom: 20px;
+}
 .article {
   padding: 0px 10px 0px 10px;
   margin-bottom: 21px;

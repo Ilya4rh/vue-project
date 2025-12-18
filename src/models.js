@@ -1,5 +1,6 @@
 export class CoffeeInfo {
-  constructor(coffeeName, coffeeAdress, cofeeDescription) {
+  constructor(coffeeId, coffeeName, coffeeAdress, cofeeDescription) {
+    this.coffeeId = coffeeId;
     this.coffeeName = coffeeName;
     this.coffeeAdress = coffeeAdress;
     this.cofeeDescription = cofeeDescription;
