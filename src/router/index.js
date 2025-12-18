@@ -9,6 +9,7 @@ import EstablishmentPageComponent from '../pages/EstablishmentPage.vue'
 import AddIdeaPageComponent from '../pages/AddIdeaPage.vue';
 import PersonalAccountClientComponent from '../pages/PersonalAccountClient.vue';
 import CoffeeShopPageComponent from "@/pages/CoffeeShopPage.vue";
+import CitePageAdminComponent from "../pages/CitePageAdmin.vue"
 
 const routes = [
   { path: '/', name: 'Registration', component: RegistrationComponent },
@@ -20,7 +21,8 @@ const routes = [
   { path: '/establishmentClientPage', name: 'EstablishmentClientPage', component: EstablishmentPageComponent},
   { path: '/addIdea', name: 'AddIdeaClientPage', component: AddIdeaPageComponent},
   { path: '/personalAccClient', name: 'PersonalAccountClient', component: PersonalAccountClientComponent},
-  { path: '/coffeeShopPage', name: 'CoffeeShopPageComponent', component: CoffeeShopPageComponent}
+  { path: '/coffeeShopPage', name: 'CoffeeShopPageComponent', component: CoffeeShopPageComponent},
+  { path: '/citePageAdmin', name: 'CitePageAdmin', component: CitePageAdminComponent},
 ]
 
 const router = createRouter({

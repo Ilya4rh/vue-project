@@ -4,29 +4,36 @@
       <p class="article-title">{{ ideaInfo.ideaName }}</p>
       <p class="article-status">{{ ideaInfo.ideaStatus }}</p>
     </div>
+    <div class="date-author-container">
+      <p>Иван</p>
+      <p>07.05.2025</p>
+    </div>
     <div class="description-container">
       {{ ideaInfo.ideaDescription }}
     </div>
-    <img
+    <div class="liked-count-container">
+      <p>385</p>
+      <img
         class="like-container"
-      v-if="ideaInfo.ideaLiked"
-      src="../../assets/heart_fill.svg"
-      width="15"
-      height="15"
-    />
-    <img
-    class="like-container"
-      v-if="!ideaInfo.ideaLiked"
-      src="../../assets/heart_stroke.svg"
-      width="15"
-      height="15"
-    />
+        v-if="ideaInfo.ideaLiked"
+        src="../../assets/heart_fill.svg"
+        width="15"
+        height="15"
+      />
+      <img
+        class="like-container"
+        v-if="!ideaInfo.ideaLiked"
+        src="../../assets/heart_stroke.svg"
+        width="15"
+        height="15"
+      />
+    </div>
   </section>
 </template>
 <script>
 import IdeaInfo from "../../models";
 export default {
-  name: "IdeaCardComponent",
+  name: "IdeaCardAdminComponent",
   props: {
     ideaInfo: IdeaInfo,
   },
@@ -35,7 +42,7 @@ export default {
       this.$emit("onClickCard", {
         ideaInfo: {
           id: this.ideaInfo.ideaId,
-          name: this.coffeeInfo.coffeeName,
+          name: this.ideaInfo.coffeeName,
           date: this.ideaInfo.ideaDate,
           description: this.ideaInfo.ideaDescription,
           status: this.ideaInfo.ideaStatus,
@@ -60,6 +67,25 @@ export default {
   gap: 13px;
   * {
     background: transparent;
+  }
+  .date-author-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 8px;
+    margin-top: -10px;
+    p {
+      margin: 0;
+      padding: 0;
+      color: rgba(175, 165, 150, 1);
+      color: rgba(175, 165, 150, 1);
+
+      font-family: Rubik;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0%;
+      text-align: left;
+    }
   }
   .article-container {
     margin: 0;
@@ -95,8 +121,11 @@ export default {
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  .like-container{
+  .liked-count-container {
     margin-left: auto;
+    display: flex;
+    gap: 6px;
+    align-items: center;
   }
 }
 </style>
