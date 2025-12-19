@@ -11,6 +11,8 @@
 <script>
 import {clientStore} from "@/stores/ClientStore";
 import { getCurrentUserInfo } from "@/services/ClientService"
+import router from "@/router";
+import { setCookie } from "@/services/CookieService";
 
 export default {
   name: "AcceptationCodePageComponent",
@@ -53,8 +55,12 @@ export default {
         const data = await response.json()
 
         store.update({code: this.code, access_token: data.access_token, refresh_token: data.refresh_token});
+        setCookie('access_token', data.access_token, 1)
+        setCookie('refresh_token', data.refresh_token, 7)
         
         await getCurrentUserInfo();
+        
+        router.push("/mainClient")
         
         console.log(data)
       } catch (error) {

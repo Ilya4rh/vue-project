@@ -1,84 +1,24 @@
-﻿import {clientStore} from "@/stores/ClientStore";
-import {adminStore} from "@/stores/AdminStore";
-import { getCookie } from "@/services/CookieService";
-import router from "@/router";
+﻿import {adminStore} from "@/stores/AdminStore";
+import {getCookie} from "@/services/CookieService";
+import {IdeaInfo} from "@/models";
 
-export async function getCurrentUserInfo() {
-    const store = clientStore();
-    
+export function mapIdeaDtoToModel(dto) {
+    return new IdeaInfo(
+        dto.id,
+        dto.title,
+        Date.now(),
+        dto.description,
+        'В работе', 
+        dto.likes
+    )
+}
+
+export async function getCurrentUserIdeas() {
     try {
         const token = getCookie("access_token");
-        
-        const response = await fetch(
-            `/api/v1/users/me`,
-            {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            }
-        )
-
-        if (!response.ok) {
-            router.push("/")
-            console.log('Ошибка запроса')
-        }
-
-        const data = await response.json()
-
-        store.update({id: data.ID, name: data.Name, phoneNumber: data.Phone});
-        
-        console.log(data)
-        
-        return data;
-    } catch (error) {
-        router.push("/")
-        console.error(error)
-    }
-}
-
-export async function getAllClients(){
-    const store = adminStore();
-
-    try {
-        const token = store.dto.access_token;
 
         const response = await fetch(
-            `/api/v1/users`,
-            {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            }
-        )
-
-        if (!response.ok) {
-            console.log('Ошибка запроса')
-        }
-
-        const data = await response.json()
-        
-        console.log(data)
-        
-        return data;
-    } catch (error) {
-        console.error(error)
-    }
-}
-
-export async function getClientById(id){
-    const store = adminStore();
-
-    try {
-        const token = store.dto.access_token;
-
-        const response = await fetch(
-            `/api/v1/users/${id}`,
+            `/api/v1/users/me/ideas`,
             {
                 method: 'GET',
                 headers: {
@@ -96,6 +36,90 @@ export async function getClientById(id){
         const data = await response.json()
 
         console.log(data)
+        
+        return data;
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export async function getCoffeeShopIdeas(coffeeShopId) {
+
+    try {
+        let token = getCookie("access_token");
+
+        if (token === ''){
+            token = getCookie("access_token_admin");
+        }
+
+        const response = await fetch(
+            `/api/v1/coffee-shops/${coffeeShopId}/ideas`,
+            {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        if (!response.ok) {
+            console.log('Ошибка запроса')
+        }
+
+        const data = await response.json()
+
+        if (!Array.isArray(data)) {
+            console.log('Пустой массив')
+            return [];
+        }
+        
+        console.log(data)
+
+        const result = data.map(dto => {
+            if (!dto || !dto.id) {
+                console.log("Пропущен элемент без id:", dto);
+                return null;
+            }
+            
+            return mapIdeaDtoToModel(dto);
+        });
+
+        console.log(result)
+        
+        return result;
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export async function getIdeaById(ideaId) {
+    // Не понятно с токеном
+    const store = adminStore();
+
+    try {
+        let token = store.dto.access_token;
+
+        const response = await fetch(
+            `/api/v1/ideas/${ideaId}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        if (!response.ok) {
+            console.log('Ошибка запроса')
+        }
+
+        const data = await response.json()
+
+        console.log(data)
 
         return data;
     } catch (error) {
@@ -103,14 +127,15 @@ export async function getClientById(id){
     }
 }
 
-export async function deleteClientById(id){
+export async function deleteIdeaById(ideaId) {
+    // Не понятно с токеном
     const store = adminStore();
 
     try {
-        const token = store.dto.access_token;
+        let token = store.dto.access_token;
 
         const response = await fetch(
-            `/api/v1/users/${id}`,
+            `/api/v1/ideas/${ideaId}`,
             {
                 method: 'DELETE',
                 headers: {
@@ -124,8 +149,6 @@ export async function deleteClientById(id){
         if (!response.ok) {
             console.log('Ошибка запроса')
         }
-
-        console.log(response.status)
     } catch (error) {
         console.error(error)
     }

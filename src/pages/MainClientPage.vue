@@ -5,13 +5,13 @@
         <img src="../assets/point_map_white.svg" width="4" height="8" />
         <p>{{ defaultInfoPerson.city }}</p>
       </div>
-      <div class="person_info">
+      <router-link to="/personalAccClient" class="person_info">
         <div class="preson_container">
           <p class="person_name">{{ defaultInfoPerson.name }}</p>
           <p class="person_phone">{{ defaultInfoPerson.phoneNumber }}</p>
         </div>
         <img src="../assets/default_person.svg" />
-      </div>
+      </router-link>
     </div>
   </section>
   <CofeeCardComponent
@@ -19,37 +19,50 @@
     v-for="defaultCofee in defaultCoffeesArr"
     :key="defaultCofee.coffeeId"
     :coffeeInfo="defaultCofee"
+    @onClickCard="payload => handleCardClick(payload)"
   />
 </template>
 <script>
 import CofeeCardComponent from "../components/ui-kit-components/CoffeCardInfo.vue";
+import {getAllCoffeeShops} from "@/services/CoffeeShopsService";
+import {getCurrentUserInfo} from "@/services/ClientService";
+import router from "@/router";
+
 export default {
   name: "MainClientPage",
   components: { CofeeCardComponent },
   data() {
     return {
       defaultInfoPerson: {
-        name: "Иван",
-        phoneNumber: "+792564567465",
-        city: "Екатеринбург",
+        name: "",
+        phoneNumber: "",
+        city: "",
       },
-      defaultCoffeesArr: [
-        {
-          cofeeId: "1",
-          coffeeName: "CoffeMania",
-          coffeeAdress: "Mira, 19",
-          cofeeDescription: "Simple Coffee InfoSimple Coffee InfoSimple",
-        },
-        {
-          cofeeId: "2",
-          coffeeName: "CoffeMania2",
-          coffeeAdress: "Mira, 119",
-          cofeeDescription:
-            "Simple Coffee InfoSimple Coffee InfoSimpleSimple Coffee InfoSimple Coffee InfoSimpleSimple Coffee InfoSimple Coffee InfoSimple",
-        },
-      ],
+      defaultCoffeesArr: [],
     };
   },
+  async mounted() {
+    try {
+      const data = await getCurrentUserInfo();
+      console.log(data);
+      
+      this.defaultInfoPerson = {
+        name: data.Name,
+        phoneNumber: data.Phone,
+        city: "Екатеринбург",
+      };
+
+      this.defaultCoffeesArr = await getAllCoffeeShops();
+    } catch (e) {
+      console.error(e);
+    }
+  },
+  methods: {
+    handleCardClick(payload) {
+      console.log(payload.coffeeInfo.id);
+      router.push({ name: 'CoffeeShopPageComponent', params: { inputCoffeeId: payload.coffeeInfo.id } });
+    }
+  }
 };
 </script>
 <style lang="scss">

@@ -21,7 +21,7 @@
 
     <div class="controls-container">
       <input class="controll phone-number" type="text" placeholder="Логин" v-model="login"/>
-      <input class="controll" type="text" placeholder="Пароль" v-model="password"/>
+      <input class="controll" type="password" placeholder="Пароль" v-model="password"/>
     </div>
     <div class="buttons-container">
       <button class="signIn btn" @click="entry()">Войти</button>
@@ -30,6 +30,7 @@
 </template>
 <script>
 import {adminStore} from "@/stores/AdminStore";
+import {setCookie} from "@/services/CookieService";
 
 export default {
   name: "AuthorizationAdminComponent",
@@ -75,6 +76,12 @@ export default {
         }
 
         const data = await response.json()
+
+        store.update({coffeeShopId: data.coffeeShopId, access_token: data.access_token, refresh_token: data.refresh_token});
+
+        setCookie('access_token_admin', data.access_token, 1)
+        setCookie('refresh_token_admin', data.refresh_token, 7)
+        
         console.log(data)
       } catch (error) {
         console.error(error)

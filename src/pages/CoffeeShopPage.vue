@@ -31,39 +31,45 @@
 <script>
 import CoffeeCardComponent from "@/components/ui-kit-components/CoffeCardInfo.vue";
 import IdeaCardComponent from "@/components/ui-kit-components/IdeaCard.vue";
+import {getCoffeeShopById} from "@/services/CoffeeShopsService";
+import router from "@/router";
+import {getCoffeeShopIdeas} from "@/services/IdeasService";
 
 export default {
-  name: "MainClientPage",
+  name: "CoffeeShopPage",
   components: {IdeaCardComponent, CoffeeCardComponent},
   data() {
     return {
       defaultCoffee: {
-        coffeeId: "1",
-        coffeeName: "CoffeeMania",
-        coffeeAdress: "Mira, 19",
-        cofeeDescription: "Simple Coffee InfoSimple Coffee InfoSimple",
+        coffeeId: "",
+        coffeeName: "",
+        coffeeAdress: "",
+        cofeeDescription: "",
       },
-      defaultIdeasArr: [
-        {
-          ideaId: "1",
-          ideaName: "Idea 1",
-          ideaDate: "07.05.2004",
-          ideaDescription: "Simple idea InfoSimple idea InfoSimple",
-          ideaStatus: "Check",
-          ideaLiked: false,
-        },
-        {
-          ideaId: "2",
-          ideaName: "Idea My Idea",
-          ideaDate: "07.05.2004",
-          ideaDescription:
-              "Simple idea InfoSimple idea InfoSimpleSimple Coffee InfoSimple Coffee InfoSimpleSimple Coffee InfoSimple Coffee InfoSimple",
-          ideaStatus: "Ready",
-          ideaLiked: true,
-        },
-      ],
+      defaultIdeasArr: [],
     }
-  }
+  },
+  props: ['inputCoffeeId'],
+  async mounted() {
+    
+    const coffeeId = this.$route.params.inputCoffeeId;
+    console.log(coffeeId)
+    
+    if (coffeeId === null || coffeeId === ''){
+      router.push("/mainClient")
+    }
+
+    const coffeeShop = await getCoffeeShopById(coffeeId)
+    
+    this.defaultCoffee = {
+      coffeeId: coffeeId,
+      coffeeName: coffeeShop.coffeeName,
+      coffeeAdress: coffeeShop.coffeeAdress,
+      cofeeDescription: coffeeShop.cofeeDescription
+    }
+    
+    this.defaultIdeasArr = await getCoffeeShopIdeas(coffeeId);
+  },
 }
 </script>
 

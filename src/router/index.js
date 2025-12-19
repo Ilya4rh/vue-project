@@ -22,7 +22,7 @@ const routes = [
   { path: '/establishmentClientPage', name: 'EstablishmentClientPage', component: EstablishmentPageComponent},
   { path: '/addIdea', name: 'AddIdeaClientPage', component: AddIdeaPageComponent},
   { path: '/personalAccClient', name: 'PersonalAccountClient', component: PersonalAccountClientComponent},
-  { path: '/coffeeShopPage', name: 'CoffeeShopPageComponent', component: CoffeeShopPageComponent},
+  { path: '/coffeeShopPage/:inputCoffeeId', name: 'CoffeeShopPageComponent', component: CoffeeShopPageComponent},
   { path: '/citePageAdmin', name: 'CitePageAdmin', component: CitePageAdminComponent},
   { path: '/ideaPage', name: 'IdeaPageComponent', component: IdeaPageComponent}
 ]

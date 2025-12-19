@@ -7,7 +7,9 @@ export const adminStore = defineStore('admin', {
             login: '',
             coffeeShopName: '',
             city: '',
-            password: ''
+            password: '',
+            access_token: '',
+            refresh_token: '',
         }
     }),
 
@@ -21,7 +23,9 @@ export const adminStore = defineStore('admin', {
                 login: '',
                 coffeeShopName: '',
                 city: '',
-                password: ''
+                password: '',
+                access_token: '',
+                refresh_token: '',
             }
         }
     }

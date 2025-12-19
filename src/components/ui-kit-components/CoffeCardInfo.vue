@@ -1,5 +1,5 @@
 <template>
-  <section class="card-sec">
+  <section class="card-sec" @click="sendDataCoffee">
     <div class="article-container">
       <p class="article-title">{{ coffeeInfo.coffeeName }}</p>
       <div class="adress-container">
