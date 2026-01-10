@@ -72,10 +72,12 @@ export async function getAllClients(){
 }
 
 export async function getClientById(id){
-    const store = adminStore();
-
     try {
-        const token = store.dto.access_token;
+        let token = getCookie("access_token");
+
+        if (token === ''){
+            token = getCookie("access_token_admin");
+        }
 
         const response = await fetch(
             `/api/v1/users/${id}`,

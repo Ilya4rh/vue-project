@@ -5,14 +5,14 @@
       <p class="article-status">{{ ideaInfo.ideaStatus }}</p>
     </div>
     <div class="date-author-container">
-      <p>Иван</p>
-      <p>07.05.2025</p>
+      <p>{{ ideaInfo.creatorName }}</p>
+      <p>{{ ideaInfo.ideaDate }}</p>
     </div>
     <div class="description-container">
       {{ ideaInfo.ideaDescription }}
     </div>
     <div class="liked-count-container">
-      <p>385</p>
+      <p>{{ ideaInfo.ideaLiked }}</p>
       <img
         class="like-container"
         v-if="ideaInfo.ideaLiked"

@@ -33,6 +33,7 @@
 <script>
 import {adminStore} from "@/stores/AdminStore";
 import {setCookie} from "@/services/CookieService";
+import router from "@/router";
 
 export default {
   name: "RegistrationAdminComponent",
@@ -98,6 +99,8 @@ export default {
 
         setCookie('access_token_admin', data.access_token, 1)
         setCookie('refresh_token_admin', data.refresh_token, 7)
+
+        await router.push({ name: 'CitePageAdminComponent', params: { inputCoffeeId: data.coffeeShopId } });
         
         console.log(data)
       } catch (error) {

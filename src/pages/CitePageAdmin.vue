@@ -3,7 +3,7 @@
     <div class="nav-controll-container">
       <div class="select-wrapper ideas">
         <select id="nameIdea" name="ideas">
-          <option value="" selected>Без категории</option>
+          <option value="" selected>Статус</option>
           <option value="apple">Яблоко</option>
           <option value="banana">Банан</option>
           <option value="cherry">Вишня</option>
@@ -11,7 +11,7 @@
       </div>
       <div class="select-wrapper status">
         <select id="statusIdea" name="status">
-          <option value="" selected>Без категории</option>
+          <option value="" selected>Категория</option>
           <option value="apple">Яблоко</option>
           <option value="banana">Банан</option>
           <option value="cherry">Вишня</option>
@@ -37,33 +37,21 @@
 </template>
 <script>
 import IdeaCardAdminComponent from "../components/ui-kit-components/IdeaCardAdmin.vue";
+import {getCoffeeShopIdeas} from "@/services/IdeasService";
 
 export default {
   name: "CitePageAdminComponent",
   components: { IdeaCardAdminComponent },
+  props: ['inputCoffeeId'],
   data() {
     return {
-      defaultIdeasArr: [
-        {
-          ideaId: "1",
-          ideaName: "Idea 1",
-          ideaDate: "07.05.2004",
-          ideaDescription: "Simple idea InfoSimple idea InfoSimple",
-          ideaStatus: "Check",
-          ideaLiked: false,
-        },
-        {
-          ideaId: "2",
-          ideaName: "Idea My Idea",
-          ideaDate: "07.05.2004",
-          ideaDescription:
-            "Simple idea InfoSimple idea InfoSimpleSimple Coffee InfoSimple Coffee InfoSimpleSimple Coffee InfoSimple Coffee InfoSimple",
-          ideaStatus: "Ready",
-          ideaLiked: true,
-        },
-      ],
+      defaultIdeasArr: [],
     };
   },
+  async mounted() {
+    const coffeeId = this.$route.params.inputCoffeeId;
+    this.defaultIdeasArr = await getCoffeeShopIdeas(coffeeId);
+  }
 };
 </script>
 <style lang="scss">

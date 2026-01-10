@@ -31,6 +31,7 @@
 <script>
 import {adminStore} from "@/stores/AdminStore";
 import {setCookie} from "@/services/CookieService";
+import router from "@/router";
 
 export default {
   name: "AuthorizationAdminComponent",
@@ -77,12 +78,14 @@ export default {
 
         const data = await response.json()
 
-        store.update({coffeeShopId: data.coffeeShopId, access_token: data.access_token, refresh_token: data.refresh_token});
+        store.update({coffeeShopId: data.coffee_shop_id, access_token: data.access_token, refresh_token: data.refresh_token});
 
         setCookie('access_token_admin', data.access_token, 1)
         setCookie('refresh_token_admin', data.refresh_token, 7)
+
+        console.log(data);
         
-        console.log(data)
+        await router.push({ name: 'CitePageAdminComponent', params: { inputCoffeeId: data.coffee_shop_id } });
       } catch (error) {
         console.error(error)
       }

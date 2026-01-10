@@ -2,17 +2,20 @@
 import {getCookie} from "@/services/CookieService";
 import {IdeaInfo} from "@/models";
 import {getStatusById} from "@/services/StatusesService";
+import {getClientById} from "@/services/ClientService";
 
 export async function mapIdeaDtoToModel(dto) {
     let status = await getStatusById(dto.status_id);
+    let creator = await getClientById(dto.creator_id);
 
     return new IdeaInfo(
         dto.id,
         dto.title,
-        Date.now(),
+        new Date().toLocaleDateString('ru-RU'),
         dto.description,
         status.title,
-        dto.likes
+        dto.likes,
+        creator.Name
     )
 }
 
