@@ -1,14 +1,17 @@
 ﻿import {adminStore} from "@/stores/AdminStore";
 import {getCookie} from "@/services/CookieService";
 import {IdeaInfo} from "@/models";
+import {getStatusById} from "@/services/StatusesService";
 
-export function mapIdeaDtoToModel(dto) {
+export async function mapIdeaDtoToModel(dto) {
+    let status = await getStatusById(dto.status_id);
+
     return new IdeaInfo(
         dto.id,
         dto.title,
         Date.now(),
         dto.description,
-        'В работе', 
+        status.title,
         dto.likes
     )
 }
@@ -77,14 +80,11 @@ export async function getCoffeeShopIdeas(coffeeShopId) {
         
         console.log(data)
 
-        const result = data.map(dto => {
-            if (!dto || !dto.id) {
-                console.log("Пропущен элемент без id:", dto);
-                return null;
-            }
-            
-            return mapIdeaDtoToModel(dto);
-        });
+        const result = await Promise.all(
+            data
+                .filter(dto => dto && dto.id)
+                .map(dto => mapIdeaDtoToModel(dto))
+        );
 
         console.log(result)
         
@@ -151,5 +151,38 @@ export async function deleteIdeaById(ideaId) {
         }
     } catch (error) {
         console.error(error)
+    }
+}
+
+export async function createIdea(categoryId, coffeeShopId, title, description) {
+    try {
+        let token = getCookie("access_token");
+        
+        const formData = new FormData()
+        formData.append('category_id', categoryId)
+        formData.append('coffee_shop_id', coffeeShopId)
+        formData.append('title', title)
+        formData.append('description', description)
+
+        console.log(formData);
+        
+        const response = await fetch('/api/v1/ideas', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        })
+
+        if (!response.ok) {
+            const errorText = await response.text()
+            throw new Error(`Ошибка ${response.status}: ${errorText}`)
+        }
+
+        return await response.json()
+    } catch (error) {
+        console.error('Ошибка при создании идеи:', error)
+        throw error
     }
 }

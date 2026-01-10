@@ -16,3 +16,12 @@ export class IdeaInfo {
         this.ideaLiked = ideaLiked;
     }
 }
+
+export class CategoryInfo {
+    constructor(id, coffeeShopId, name, description) {
+        this.id = id;
+        this.coffeeShopId = coffeeShopId;
+        this.name = name;
+        this.description = description;
+    }
+}

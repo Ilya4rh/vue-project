@@ -1,7 +1,7 @@
 ﻿<template>
   <section class="article">
     <div class="article-info">
-      <div class="offer-info">
+      <div class="offer-info" @click="handleAddIdeaClick(defaultCoffee.coffeeId)">
         <div class="offer-container">
           <p>предложить идею</p>
         </div>
@@ -70,6 +70,12 @@ export default {
     
     this.defaultIdeasArr = await getCoffeeShopIdeas(coffeeId);
   },
+  methods: {
+    handleAddIdeaClick(coffeeId) {
+      console.log(coffeeId);
+      router.push({ name: 'AddIdeaClientPage', params: { inputCoffeeId: coffeeId } });
+    }
+  }
 }
 </script>
 

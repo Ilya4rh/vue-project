@@ -7,11 +7,15 @@
   <section class="main-idea-page">
     <div class="category-selection">
       <div class="select-wrapper">
-        <select id="categoryIdea" name="fruit">
+        <select id="categoryIdea" name="fruit" v-model="selectedCategory">
           <option value="" selected>Без категории</option>
-          <option value="apple">Яблоко</option>
-          <option value="banana">Банан</option>
-          <option value="cherry">Вишня</option>
+          <option
+              v-for="category in categories"
+              :key="category.id"
+              :value="category.id"
+          >
+            {{ category.name }}
+          </option>
         </select>
       </div>
     </div>
@@ -19,15 +23,58 @@
       class="controll name"
       type="text"
       placeholder="Название идеи"
-      v-model="name"
+      v-model="ideaName"
     />
   </section>
-  <textarea placeholder="Описание" class="desc-container"></textarea>
-  <button class="add-btn">Предложить идею</button>
+  <textarea placeholder="Описание" class="desc-container" v-model="ideaDescription"></textarea>
+  <button class="add-btn" @click="handleAddIdeaClick()">Предложить идею</button>
 </template>
 <script>
+import {getCategoriesByCoffeeShopId} from "@/services/CategoriesService";
+import {createIdea} from "@/services/IdeasService";
+import router from "@/router";
+
 export default {
   name: "AddIdeaPageComponent",
+  props: ['inputCoffeeId'],
+  data() {
+    return {
+      categories: [],
+      ideaName: '',
+      ideaDescription: '',
+      selectedCategory: '',
+    }
+  },
+  async mounted(){
+    try{
+      this.categories = await getCategoriesByCoffeeShopId(this.$route.params.inputCoffeeId);
+    }
+    catch (e){
+      console.log(e);
+    }
+  },
+  methods: {
+    async handleAddIdeaClick() {
+      if (!this.ideaName) {
+        alert('Введите название идеи')
+        return
+      }
+
+      if (!this.ideaDescription) {
+        alert('Введите описание идеи')
+        return
+      }
+      
+      console.log(this.selectedCategory);
+      try {
+        await createIdea(this.selectedCategory, this.$route.params.inputCoffeeId, this.ideaName, this.ideaDescription);
+        await router.push({ name: 'CoffeeShopPageComponent', params: { inputCoffeeId: this.$route.params.inputCoffeeId } });
+      }
+      catch (e){
+        alert('Ошибка при создании идеи')
+      }
+    }
+  }
 };
 </script>
 <style lang="scss">

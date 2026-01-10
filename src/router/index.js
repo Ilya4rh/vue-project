@@ -20,7 +20,7 @@ const routes = [
   { path: '/admin', name: 'RegistrationAdmin', component: RegistrationAdminComponent },
   { path: '/mainClient', name: 'MainClientPage', component: MainClientPageComponent},
   { path: '/establishmentClientPage', name: 'EstablishmentClientPage', component: EstablishmentPageComponent},
-  { path: '/addIdea', name: 'AddIdeaClientPage', component: AddIdeaPageComponent},
+  { path: '/coffeeShopPage/:inputCoffeeId/addIdea', name: 'AddIdeaClientPage', component: AddIdeaPageComponent},
   { path: '/personalAccClient', name: 'PersonalAccountClient', component: PersonalAccountClientComponent},
   { path: '/coffeeShopPage/:inputCoffeeId', name: 'CoffeeShopPageComponent', component: CoffeeShopPageComponent},
   { path: '/citePageAdmin', name: 'CitePageAdmin', component: CitePageAdminComponent},
