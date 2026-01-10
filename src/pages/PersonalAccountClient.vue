@@ -24,29 +24,63 @@
       <img src="../assets/default_person.svg" width="125" height="125" />
       <div class="person-desc">
         <!-- заменить данными с бэка -->
-        <h3>Name</h3>
-        <p>+792564567465</p>
+        <h3>{{ defaultInfoPerson.name }}</h3>
+        <p>{{ defaultInfoPerson.phoneNumber }}</p>
       </div>
     </div>
     <div class="info-adress-container">
       <div class="short-info-container">
-        Short-info-containershort-info-containershort-info-containershort-info-containershort-info-containershort-info-container
-        short-info-containershort-info-containershort-info-container
-        short-info-containershort-info-containershort-info-container
-        short-info-containershort-info-container
       </div>
       <div class="adress-container">
         <img src="../assets/point_map.svg" width="10" height="15" />
-        <p>Adress, 25</p>
+        <p>{{ defaultInfoPerson.city }}</p>
       </div>
     </div>
-    <div class="ideas count-container">Идей <span>385</span></div>
-    <div class="prize count-container">Наград <span>385</span></div>
+    <div class="ideas count-container">Идей <span>{{ defaultInfoPerson.ideasCount }}</span></div>
+    <div class="prize count-container">Наград <span>{{ defaultInfoPerson.prizesCount }}</span></div>
   </section>
 </template>
 <script>
+import {getCurrentUserInfo} from "@/services/ClientService";
+import {getAllCoffeeShops} from "@/services/CoffeeShopsService";
+import {getCurrentUserIdeas} from "@/services/IdeasService";
+import {getCurrentUserPrizes} from "@/services/PrizesService";
+
 export default {
   name: "PersonalAccountClientComponent",
+  data() {
+    return {
+      defaultInfoPerson: {
+        name: "",
+        phoneNumber: "",
+        city: "",
+        ideasCount: "",
+        prizesCount: ""
+      },
+    };
+  },
+  async mounted() {
+    try {
+      const data = await getCurrentUserInfo();
+      console.log(data);
+      
+      const ideasData = await getCurrentUserIdeas();
+      
+      const prizesData = await getCurrentUserPrizes();
+
+      this.defaultInfoPerson = {
+        name: data.Name,
+        phoneNumber: '+7' + data.Phone,
+        city: "Екатеринбург",
+        ideasCount: ideasData.length,
+        prizesCount: prizesData.length
+      };
+
+      this.defaultCoffeesArr = await getAllCoffeeShops();
+    } catch (e) {
+      console.error(e);
+    }
+  },
 };
 </script>
 <style lang="scss">

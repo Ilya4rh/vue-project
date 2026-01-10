@@ -48,7 +48,7 @@ export default {
       
       this.defaultInfoPerson = {
         name: data.Name,
-        phoneNumber: data.Phone,
+        phoneNumber: '+7' + data.Phone,
         city: "Екатеринбург",
       };
 
