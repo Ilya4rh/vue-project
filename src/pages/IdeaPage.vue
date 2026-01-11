@@ -3,27 +3,31 @@
     <div class="article-info">
       <div class="idea-name-info">
         <div class="idea-name-container">
-          <p>Название идеи идеи</p>
+          <p>{{ ideaInfo.ideaName }}</p>
         </div>
       </div>
       <div class="idea-another-info">
         <div class="idea-another-info__title">Категория</div>
-        <p class="idea-another-info__title__date">Дата</p>
+        <p class="idea-another-info__title__date">{{ ideaInfo.ideaDate }}</p>
       </div>
     </div>
   </section>
   <div class="idea-description">
-    Описание
+    {{ ideaInfo.ideaDescription }}
   </div>
   <div class="status-likes-container">
     <select class="status-select">
-      <option>Поступила</option>
-      <option>Ожидает</option>
-      <option>В работе</option>
-      <option>Готова</option>
+      <option value="" selected>{{ ideaInfo.ideaStatus }}</option>
+      <option
+          v-for="status in statuses"
+          :key="status.id"
+          :value="status.id"
+      >
+        {{ status.title }}
+      </option>
     </select>
     <div class="likes-container">
-      <h1 class="likes-count">1234</h1>
+      <h1 class="likes-count">{{ ideaInfo.ideaLiked }}</h1>
       <img src="@/assets/heart_fill.svg">
     </div>
   </div>
@@ -35,8 +39,23 @@
 
 
 <script>
+import {IdeaInfo} from "@/models";
+import {getIdeaById} from "@/services/IdeasService";
+import {getAllStatuses} from "@/services/StatusesService";
+
 export default {
   name: "IdeaPage",
+  props: ['inputCoffeeId', 'ideaId'],
+  data() {
+    return{
+      ideaInfo: IdeaInfo,
+      statuses: [],
+    };
+  },
+  async mounted() {
+    this.ideaInfo = await getIdeaById(this.$route.params.ideaId);
+    this.statuses = await getAllStatuses();
+  }
 }
 </script>
 

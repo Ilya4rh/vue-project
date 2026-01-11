@@ -98,11 +98,12 @@ export async function getCoffeeShopIdeas(coffeeShopId) {
 }
 
 export async function getIdeaById(ideaId) {
-    // Не понятно с токеном
-    const store = adminStore();
-
     try {
-        let token = store.dto.access_token;
+        let token = getCookie("access_token");
+
+        if (token === ''){
+            token = getCookie("access_token_admin");
+        }
 
         const response = await fetch(
             `/api/v1/ideas/${ideaId}`,
@@ -124,7 +125,7 @@ export async function getIdeaById(ideaId) {
 
         console.log(data)
 
-        return data;
+        return mapIdeaDtoToModel(data);
     } catch (error) {
         console.error(error)
     }

@@ -33,11 +33,13 @@
     v-for="ideaInfo in defaultIdeasArr"
     :key="ideaInfo.ideaId"
     :ideaInfo="ideaInfo"
+    @click="openIdea(ideaInfo.ideaId)"
   ></IdeaCardAdminComponent>
 </template>
 <script>
 import IdeaCardAdminComponent from "../components/ui-kit-components/IdeaCardAdmin.vue";
 import {getCoffeeShopIdeas} from "@/services/IdeasService";
+import router from "@/router";
 
 export default {
   name: "CitePageAdminComponent",
@@ -49,9 +51,14 @@ export default {
     };
   },
   async mounted() {
-    const coffeeId = this.$route.params.inputCoffeeId;
-    this.defaultIdeasArr = await getCoffeeShopIdeas(coffeeId);
+    this.defaultIdeasArr = await getCoffeeShopIdeas(this.$route.params.inputCoffeeId);
+  },
+  methods: {
+    openIdea(ideaId){
+      router.push({ name: 'IdeaPageComponent', params: { inputCoffeeId: this.$route.params.inputCoffeeId, ideaId: ideaId } });
+    }
   }
+  
 };
 </script>
 <style lang="scss">
