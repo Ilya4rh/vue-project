@@ -14,7 +14,11 @@ export function mapCoffeeDtoToModel(dto) {
 
 export async function getAllCoffeeShops() {
     try {
-        const token = getCookie("access_token");
+        let token = getCookie("access_token");
+
+        if (!token){
+            token = getCookie("access_token_admin");
+        }
 
         const response = await fetch(
             `/api/v1/coffee-shops`,
@@ -45,7 +49,11 @@ export async function getAllCoffeeShops() {
 export async function getCoffeeShopById(coffeeShopId) {
 
     try {
-        const token = getCookie("access_token");
+        let token = getCookie("access_token");
+
+        if (!token){
+            token = getCookie("access_token_admin");
+        }
 
         const response = await fetch(
             `/api/v1/coffee-shops/${coffeeShopId}`,

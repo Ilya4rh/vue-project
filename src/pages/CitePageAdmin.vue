@@ -18,7 +18,7 @@
         </select>
       </div>
     </div>
-    <router-link to="/" class="nav-btn">
+    <div @click="openPersonalAccount()" class="nav-btn">
       <p class="nav-btn__title">личный кабинет</p>
       <img
         class="nav-btn__icon"
@@ -26,7 +26,7 @@
         src="../assets/arrow.svg"
         height="10"
       />
-    </router-link>
+    </div>
   </section>
   <IdeaCardAdminComponent
     class="ideaCard"
@@ -56,6 +56,9 @@ export default {
   methods: {
     openIdea(ideaId){
       router.push({ name: 'IdeaPageComponent', params: { inputCoffeeId: this.$route.params.inputCoffeeId, ideaId: ideaId } });
+    },
+    openPersonalAccount(){
+      router.push({ name: 'PersonalAccountAdmin', params: { inputCoffeeId: this.$route.params.inputCoffeeId } });
     }
   }
   
