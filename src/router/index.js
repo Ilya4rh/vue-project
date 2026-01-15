@@ -11,6 +11,7 @@ import PersonalAccountClientComponent from '../pages/PersonalAccountClient.vue';
 import CoffeeShopPageComponent from "@/pages/CoffeeShopPage.vue";
 import CitePageAdminComponent from "../pages/CitePageAdmin.vue"
 import IdeaPageComponent from "@/pages/IdeaPage.vue";
+import PersonalAccountAdmin from "../pages/PersonalAccountAdmin.vue";
 
 const routes = [
   { path: '/', name: 'Registration', component: RegistrationComponent },
@@ -24,7 +25,9 @@ const routes = [
   { path: '/personalAccClient', name: 'PersonalAccountClient', component: PersonalAccountClientComponent},
   { path: '/coffeeShopPage/:inputCoffeeId', name: 'CoffeeShopPageComponent', component: CoffeeShopPageComponent},
   { path: '/:inputCoffeeId/citePageAdmin', name: 'CitePageAdminComponent', component: CitePageAdminComponent},
-  { path: '/:inputCoffeeId/ideaPage/:ideaId', name: 'IdeaPageComponent', component: IdeaPageComponent}
+  { path: '/:inputCoffeeId/ideaPage/:ideaId', name: 'IdeaPageComponent', component: IdeaPageComponent},
+  //изменить
+  {path: '/testAdminLK', name: 'TestPageAdminLK', component: PersonalAccountAdmin}
 ]
 
 const router = createRouter({
