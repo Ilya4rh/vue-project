@@ -5,17 +5,20 @@ import {getStatusById} from "@/services/StatusesService";
 import {getClientById} from "@/services/ClientService";
 
 export async function mapIdeaDtoToModel(dto) {
+    let date = new Date(dto.created_at);
     let status = await getStatusById(dto.status_id);
     let creator = await getClientById(dto.creator_id);
 
     return new IdeaInfo(
         dto.id,
         dto.title,
-        new Date().toLocaleDateString('ru-RU'),
+        date.toLocaleDateString('ru-RU'),
         dto.description,
         status.title,
         dto.likes,
-        creator.Name
+        creator.Name,
+        dto.category_id,
+        dto.status_id
     )
 }
 

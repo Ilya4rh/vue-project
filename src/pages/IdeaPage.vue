@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="idea-another-info">
-        <div class="idea-another-info__title">Категория</div>
+        <div class="idea-another-info__title">{{ category.name }}</div>
         <p class="idea-another-info__title__date">{{ ideaInfo.ideaDate }}</p>
       </div>
     </div>
@@ -16,7 +16,7 @@
     {{ ideaInfo.ideaDescription }}
   </div>
   <div class="status-likes-container">
-    <select class="status-select">
+    <select class="status-select" @change="onStatusChange">
       <option value="" selected>{{ ideaInfo.ideaStatus }}</option>
       <option
           v-for="status in statuses"
@@ -39,9 +39,10 @@
 
 
 <script>
-import {IdeaInfo} from "@/models";
+import {CategoryInfo, IdeaInfo} from "@/models";
 import {getIdeaById} from "@/services/IdeasService";
 import {getAllStatuses} from "@/services/StatusesService";
+import {getCategoryById} from "@/services/CategoriesService";
 
 export default {
   name: "IdeaPage",
@@ -50,11 +51,37 @@ export default {
     return{
       ideaInfo: IdeaInfo,
       statuses: [],
+      category: CategoryInfo,
     };
   },
   async mounted() {
-    this.ideaInfo = await getIdeaById(this.$route.params.ideaId);
-    this.statuses = await getAllStatuses();
+    let idea = await getIdeaById(this.$route.params.ideaId);
+    
+    this.ideaInfo = idea;
+    
+    let allStatuses = await getAllStatuses();
+
+    allStatuses = allStatuses.filter(status => status.title !== idea.ideaStatus);
+    
+    this.statuses = allStatuses;
+    
+    this.category = await getCategoryById(this.$route.params.inputCoffeeId, idea.categoryId);
+  },
+  methods: {
+    onStatusChange(event) {
+      let selectedStatusId = event.target.value
+
+      if (!selectedStatusId){
+        selectedStatusId = this.ideaInfo.ideaStatusId;
+      }
+
+      const selectedStatus = this.statuses.find(
+          status => status.id === selectedStatusId
+      )
+
+      // добавить логику изменения статуса
+      console.log('Статус изменён:', selectedStatus)
+    }
   }
 }
 </script>

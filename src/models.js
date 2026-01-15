@@ -7,7 +7,7 @@ export class CoffeeInfo {
   }
 }
 export class IdeaInfo {
-    constructor(ideaId, ideaName, ideaDate, ideaDescription, ideaStatus, ideaLiked, creatorName){
+    constructor(ideaId, ideaName, ideaDate, ideaDescription, ideaStatus, ideaLiked, creatorName, categoryId, ideaStatusId){
         this.ideaId = ideaId;
         this.ideaName = ideaName;
         this.ideaDate = ideaDate;
@@ -15,6 +15,8 @@ export class IdeaInfo {
         this.ideaStatus = ideaStatus;
         this.ideaLiked = ideaLiked;
         this.creatorName = creatorName;
+        this.categoryId = categoryId;
+        this.ideaStatusId = ideaStatusId;
     }
 }
 
