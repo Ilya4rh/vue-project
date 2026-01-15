@@ -5,7 +5,7 @@ export async function getStatusById(statusId) {
     try {
         let token = getCookie("access_token");
 
-        if (token === ''){
+        if (!token){
             token = getCookie("access_token_admin");
         }
 
@@ -40,7 +40,7 @@ export async function getAllStatuses() {
     try {
         let token = getCookie("access_token");
 
-        if (token === ''){
+        if (!token){
             token = getCookie("access_token_admin");
         }
 

@@ -54,7 +54,7 @@ export async function getCoffeeShopIdeas(coffeeShopId) {
     try {
         let token = getCookie("access_token");
 
-        if (token === ''){
+        if (!token){
             token = getCookie("access_token_admin");
         }
 
@@ -101,7 +101,7 @@ export async function getIdeaById(ideaId) {
     try {
         let token = getCookie("access_token");
 
-        if (token === ''){
+        if (!token){
             token = getCookie("access_token_admin");
         }
 

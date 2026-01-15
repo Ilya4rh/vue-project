@@ -1,5 +1,4 @@
 ﻿import {clientStore} from "@/stores/ClientStore";
-import {adminStore} from "@/stores/AdminStore";
 import { getCookie } from "@/services/CookieService";
 import router from "@/router";
 
@@ -40,10 +39,12 @@ export async function getCurrentUserInfo() {
 }
 
 export async function getAllClients(){
-    const store = adminStore();
-
     try {
-        const token = store.dto.access_token;
+        let token = getCookie("access_token");
+
+        if (!token){
+            token = getCookie("access_token_admin");
+        }
 
         const response = await fetch(
             `/api/v1/users`,
@@ -74,8 +75,8 @@ export async function getAllClients(){
 export async function getClientById(id){
     try {
         let token = getCookie("access_token");
-
-        if (token === ''){
+        
+        if (!token){
             token = getCookie("access_token_admin");
         }
 
@@ -106,10 +107,12 @@ export async function getClientById(id){
 }
 
 export async function deleteClientById(id){
-    const store = adminStore();
-
     try {
-        const token = store.dto.access_token;
+        let token = getCookie("access_token");
+
+        if (!token){
+            token = getCookie("access_token_admin");
+        }
 
         const response = await fetch(
             `/api/v1/users/${id}`,
