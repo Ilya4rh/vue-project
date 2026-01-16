@@ -193,3 +193,48 @@ export async function createIdea(categoryId, coffeeShopId, title, description) {
         throw error
     }
 }
+
+export async function updateIdea(
+    ideaId,
+    categoryId,
+    title,
+    description,
+    statusId,
+    imageUrl = ''
+) {
+    try {
+        let token = getCookie("access_token");
+
+        if (!token){
+            token = getCookie("access_token_admin");
+        }
+
+        const body = {
+            category_id: categoryId,
+            title: title,
+            description: description,
+            status_id: statusId,
+            image_url: imageUrl
+        };
+
+        console.log(body);
+        
+        const response = await fetch(`/api/v1/ideas/${ideaId}`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(body)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Ошибка ${response.status}: ${errorText}`);
+        }
+    } catch (error) {
+        console.error('Ошибка при обновлении идеи:', error);
+        throw error;
+    }
+}

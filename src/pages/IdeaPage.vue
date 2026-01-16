@@ -40,7 +40,7 @@
 
 <script>
 import {CategoryInfo, IdeaInfo} from "@/models";
-import {getIdeaById} from "@/services/IdeasService";
+import {getIdeaById, updateIdea} from "@/services/IdeasService";
 import {getAllStatuses} from "@/services/StatusesService";
 import {getCategoryById} from "@/services/CategoriesService";
 
@@ -68,19 +68,19 @@ export default {
     this.category = await getCategoryById(this.$route.params.inputCoffeeId, idea.categoryId);
   },
   methods: {
-    onStatusChange(event) {
+    async onStatusChange(event) {
       let selectedStatusId = event.target.value
 
       if (!selectedStatusId){
         selectedStatusId = this.ideaInfo.ideaStatusId;
       }
 
-      const selectedStatus = this.statuses.find(
-          status => status.id === selectedStatusId
-      )
+      let idea = this.ideaInfo;
+      
+      await updateIdea(idea.ideaId, idea.categoryId, idea.ideaName, idea.ideaDescription, selectedStatusId);
 
       // добавить логику изменения статуса
-      console.log('Статус изменён:', selectedStatus)
+      console.log('Статус изменён:', selectedStatusId)
     }
   }
 }
