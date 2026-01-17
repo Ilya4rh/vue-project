@@ -203,10 +203,10 @@ export async function updateIdea(
     imageUrl = ''
 ) {
     try {
-        let token = getCookie("access_token");
+        let token = getCookie("access_token_admin");
 
         if (!token){
-            token = getCookie("access_token_admin");
+            token = getCookie("access_token");
         }
 
         const body = {

@@ -8,27 +8,41 @@
       {{ ideaInfo.ideaDescription }}
     </div>
     <img
-        class="like-container"
-      v-if="ideaInfo.ideaLiked"
-      src="../../assets/heart_fill.svg"
-      width="15"
-      height="15"
-    />
-    <img
     class="like-container"
-      v-if="!ideaInfo.ideaLiked"
-      src="../../assets/heart_stroke.svg"
+      :src="likeIcon"
       width="15"
-      height="15"
+      height="15" 
+      @click="toggleLike()"
     />
   </section>
 </template>
 <script>
 import IdeaInfo from "../../models";
+import {isLiked, likeIdea, unlikeIdea} from "@/services/LikesService";
+
 export default {
   name: "IdeaCardComponent",
   props: {
-    ideaInfo: IdeaInfo,
+    ideaInfo: IdeaInfo
+  },
+  data() {
+    return {
+      isLiked: '',
+    };
+  },
+  async mounted(){
+    this.isLiked = await isLiked(this.ideaInfo.ideaId)
+  },
+  computed: {
+    likesCount() {
+      return Number(this.ideaInfo.ideaLiked) || 0
+    },
+
+    likeIcon() {
+      return this.isLiked
+          ? require("../../assets/heart_fill.svg")
+          : require("../../assets/heart_stroke.svg")
+    }
   },
   methods: {
     sendDataCoffee() {
@@ -39,10 +53,23 @@ export default {
           date: this.ideaInfo.ideaDate,
           description: this.ideaInfo.ideaDescription,
           status: this.ideaInfo.ideaStatus,
-          isLiked: this.ideaInfo.ideaLiked,
+          ideaLiked: this.ideaInfo.ideaLiked,
         },
       });
     },
+    async toggleLike() {
+      let isLiked = !this.isLiked;
+      let ideaId = this.ideaInfo.ideaId;
+
+      if (isLiked) {
+        await likeIdea(ideaId);
+      }
+      else {
+        await unlikeIdea(ideaId);
+      }
+
+      this.isLiked = !this.isLiked;
+    }
   },
 };
 </script>
