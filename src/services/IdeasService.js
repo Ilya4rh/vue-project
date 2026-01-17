@@ -5,17 +5,20 @@ import {getStatusById} from "@/services/StatusesService";
 import {getClientById} from "@/services/ClientService";
 
 export async function mapIdeaDtoToModel(dto) {
+    let date = new Date(dto.created_at);
     let status = await getStatusById(dto.status_id);
     let creator = await getClientById(dto.creator_id);
 
     return new IdeaInfo(
         dto.id,
         dto.title,
-        new Date().toLocaleDateString('ru-RU'),
+        date.toLocaleDateString('ru-RU'),
         dto.description,
         status.title,
         dto.likes,
-        creator.Name
+        creator.Name,
+        dto.category_id,
+        dto.status_id
     )
 }
 
@@ -54,7 +57,7 @@ export async function getCoffeeShopIdeas(coffeeShopId) {
     try {
         let token = getCookie("access_token");
 
-        if (token === ''){
+        if (!token){
             token = getCookie("access_token_admin");
         }
 
@@ -101,7 +104,7 @@ export async function getIdeaById(ideaId) {
     try {
         let token = getCookie("access_token");
 
-        if (token === ''){
+        if (!token){
             token = getCookie("access_token_admin");
         }
 
@@ -188,5 +191,50 @@ export async function createIdea(categoryId, coffeeShopId, title, description) {
     } catch (error) {
         console.error('Ошибка при создании идеи:', error)
         throw error
+    }
+}
+
+export async function updateIdea(
+    ideaId,
+    categoryId,
+    title,
+    description,
+    statusId,
+    imageUrl = ''
+) {
+    try {
+        let token = getCookie("access_token");
+
+        if (!token){
+            token = getCookie("access_token_admin");
+        }
+
+        const body = {
+            category_id: categoryId,
+            title: title,
+            description: description,
+            status_id: statusId,
+            image_url: imageUrl
+        };
+
+        console.log(body);
+        
+        const response = await fetch(`/api/v1/ideas/${ideaId}`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(body)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Ошибка ${response.status}: ${errorText}`);
+        }
+    } catch (error) {
+        console.error('Ошибка при обновлении идеи:', error);
+        throw error;
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <section class="navigation">
-    <router-link to="/" class="exit btn">
+    <router-link to="/admin/auth" class="exit btn">
       <p class="exit-btn__title">выйти</p>
       <img
         class="exit-btn__icon"
@@ -9,7 +9,7 @@
         height="10"
       />
     </router-link>
-    <router-link to="/mainClient" class="main btn">
+    <div @click="openAdminMainPage()" class="main btn">
       <p class="main-btn__title">на главную</p>
       <img
         class="main-btn__icon"
@@ -17,26 +17,47 @@
         src="../assets/arrow.svg"
         height="10"
       />
-    </router-link>
+    </div>
   </section>
   <section class="title-container">
-    <h1 class="title-container__login">LoginCoffee</h1>
+    <h1 class="title-container__login">Личный кабинет</h1>
     <img class="title-container__img" src="../assets/big_coffee.svg" />
   </section>
   <section class="controlls-container">
-    <input class="controll cofee-name" placeholder="Название кофейни" />
-    <div class="ideas count-container">Идей <span>385</span></div>
-    <textarea class="controll description" placeholder="Описание"></textarea>
+    <input class="controll cofee-name" placeholder="Название кофейни" v-model="coffeeShopInfo.coffeeName" />
+    <div class="ideas count-container">Идей: <span>{{ coffeeShopIdeasCount }}</span></div>
+    <textarea class="controll description" placeholder="Описание" v-model="coffeeShopInfo.cofeeDescription"></textarea>
   </section>
   <div class="buttons-container">
     <button class="signIn btn">Сохранить изменения</button>
   </div>
 </template>
 <script>
+import router from "@/router";
+import {getCoffeeShopIdeas} from "@/services/IdeasService";
+import {CoffeeInfo} from "@/models";
+import {getCoffeeShopById} from "@/services/CoffeeShopsService";
+
 export default {
   name: "PersonalAccountAdmin",
-  props: {},
-  methods: {},
+  props: ['inputCoffeeId'],
+  data() {
+    return {
+      coffeeShopIdeasCount: '',
+      coffeeShopInfo: CoffeeInfo
+    };
+  },
+  async mounted() {
+    let coffeeShopIdeas = await getCoffeeShopIdeas(this.$route.params.inputCoffeeId);
+    this.coffeeShopIdeasCount = coffeeShopIdeas.length;
+    
+    this.coffeeShopInfo = await getCoffeeShopById(this.$route.params.inputCoffeeId);
+  },
+  methods: {
+    openAdminMainPage(){
+      router.push({ name: 'CitePageAdminComponent', params: { inputCoffeeId: this.$route.params.inputCoffeeId } });
+    }
+  },
 };
 </script>
 <style lang="scss">

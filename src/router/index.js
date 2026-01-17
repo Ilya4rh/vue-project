@@ -26,8 +26,7 @@ const routes = [
   { path: '/coffeeShopPage/:inputCoffeeId', name: 'CoffeeShopPageComponent', component: CoffeeShopPageComponent},
   { path: '/:inputCoffeeId/citePageAdmin', name: 'CitePageAdminComponent', component: CitePageAdminComponent},
   { path: '/:inputCoffeeId/ideaPage/:ideaId', name: 'IdeaPageComponent', component: IdeaPageComponent},
-  //изменить
-  {path: '/testAdminLK', name: 'TestPageAdminLK', component: PersonalAccountAdmin}
+  {path: '/:inputCoffeeId/personalAccAdmin', name: 'PersonalAccountAdmin', component: PersonalAccountAdmin}
 ]
 
 const router = createRouter({

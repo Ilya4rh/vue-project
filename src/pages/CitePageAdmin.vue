@@ -2,23 +2,24 @@
   <section class="navigation">
     <div class="nav-controll-container">
       <div class="select-wrapper ideas">
-        <select id="nameIdea" name="ideas">
-          <option value="" selected>Статус</option>
-          <option value="apple">Яблоко</option>
-          <option value="banana">Банан</option>
-          <option value="cherry">Вишня</option>
+        <select id="nameIdea" name="ideas" @change="onStatusChange">
+          <option value="" selected>Все</option>
+          <option
+              v-for="status in allStatuses"
+              :key="status.id"
+              :value="status.title"
+          >
+            {{ status.title }}
+          </option>
         </select>
       </div>
-      <div class="select-wrapper status">
-        <select id="statusIdea" name="status">
-          <option value="" selected>Категория</option>
-          <option value="apple">Яблоко</option>
-          <option value="banana">Банан</option>
-          <option value="cherry">Вишня</option>
-        </select>
-      </div>
+<!--      <div class="select-wrapper status">-->
+<!--        <select id="statusIdea" name="status">-->
+<!--          <option value="" selected>Категория</option>-->
+<!--        </select>-->
+<!--      </div>-->
     </div>
-    <router-link to="/" class="nav-btn">
+    <div @click="openPersonalAccount()" class="nav-btn">
       <p class="nav-btn__title">личный кабинет</p>
       <img
         class="nav-btn__icon"
@@ -26,11 +27,11 @@
         src="../assets/arrow.svg"
         height="10"
       />
-    </router-link>
+    </div>
   </section>
   <IdeaCardAdminComponent
     class="ideaCard"
-    v-for="ideaInfo in defaultIdeasArr"
+    v-for="ideaInfo in displayedIdeas"
     :key="ideaInfo.ideaId"
     :ideaInfo="ideaInfo"
     @click="openIdea(ideaInfo.ideaId)"
@@ -40,6 +41,7 @@
 import IdeaCardAdminComponent from "../components/ui-kit-components/IdeaCardAdmin.vue";
 import {getCoffeeShopIdeas} from "@/services/IdeasService";
 import router from "@/router";
+import {getAllStatuses} from "@/services/StatusesService";
 
 export default {
   name: "CitePageAdminComponent",
@@ -47,15 +49,33 @@ export default {
   props: ['inputCoffeeId'],
   data() {
     return {
-      defaultIdeasArr: [],
+      allIdeas: [],
+      displayedIdeas: [],
+      allStatuses: []
     };
   },
   async mounted() {
-    this.defaultIdeasArr = await getCoffeeShopIdeas(this.$route.params.inputCoffeeId);
+    let allIdeas = await getCoffeeShopIdeas(this.$route.params.inputCoffeeId)
+    this.allIdeas = allIdeas;
+    this.displayedIdeas = allIdeas;
+    this.allStatuses = await getAllStatuses();
   },
   methods: {
     openIdea(ideaId){
       router.push({ name: 'IdeaPageComponent', params: { inputCoffeeId: this.$route.params.inputCoffeeId, ideaId: ideaId } });
+    },
+    openPersonalAccount(){
+      router.push({ name: 'PersonalAccountAdmin', params: { inputCoffeeId: this.$route.params.inputCoffeeId } });
+    },
+    onStatusChange(event) {
+      let selectedStatus = event.target.value
+      let allIdeas = this.allIdeas;
+      
+      if (selectedStatus){
+        allIdeas = allIdeas.filter(idea => idea.ideaStatus === selectedStatus)
+      }
+
+      this.displayedIdeas = allIdeas;
     }
   }
   
