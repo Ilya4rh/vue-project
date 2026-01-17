@@ -28,6 +28,9 @@
     <div class="ideas count-container">Идей <span>385</span></div>
     <textarea class="controll description" placeholder="Описание"></textarea>
   </section>
+  <div class="buttons-container">
+    <button class="signIn btn">Сохранить изменения</button>
+  </div>
 </template>
 <script>
 export default {
@@ -38,11 +41,11 @@ export default {
 </script>
 <style lang="scss">
 .title-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap:31px;
-    margin-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 31px;
+  margin-bottom: 48px;
 }
 .controlls-container {
   .count-container,
@@ -101,6 +104,32 @@ export default {
       font-size: 11.5px;
       padding: 0;
       margin: 0;
+    }
+  }
+}
+.buttons-container {
+  width: 96%;
+  max-width: 96%;
+  margin-top: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  .btn {
+    width: 90%;
+    border: none;
+    border-radius: 10px;
+    background: rgba(41, 41, 41, 1);
+    padding: 15px;
+    color: white;
+    font-size: 14px;
+    &:hover {
+      outline: 2px solid rgba(255, 255, 255, 1);
+    }
+    &:active {
+      outline: 2px solid rgba(255, 255, 255, 1);
+      border-radius: 10px;
+      background: rgba(154, 138, 138, 1);
     }
   }
 }
