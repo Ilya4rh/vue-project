@@ -29,14 +29,14 @@
     <textarea class="controll description" placeholder="Описание" v-model="coffeeShopInfo.cofeeDescription"></textarea>
   </section>
   <div class="buttons-container">
-    <button class="signIn btn">Сохранить изменения</button>
+    <button class="signIn btn" @click="updateCoffeeShopInfo()">Сохранить изменения</button>
   </div>
 </template>
 <script>
 import router from "@/router";
 import {getCoffeeShopIdeas} from "@/services/IdeasService";
 import {CoffeeInfo} from "@/models";
-import {getCoffeeShopById} from "@/services/CoffeeShopsService";
+import {getCoffeeShopById, updateCoffeeShop} from "@/services/CoffeeShopsService";
 
 export default {
   name: "PersonalAccountAdmin",
@@ -56,6 +56,10 @@ export default {
   methods: {
     openAdminMainPage(){
       router.push({ name: 'CitePageAdminComponent', params: { inputCoffeeId: this.$route.params.inputCoffeeId } });
+    },
+    async updateCoffeeShopInfo() {
+      let coffeeShop = this.coffeeShopInfo;
+      await updateCoffeeShop(coffeeShop.coffeeId, coffeeShop.coffeeName, coffeeShop.cofeeDescription);
     }
   },
 };
@@ -131,7 +135,7 @@ export default {
 .buttons-container {
   width: 96%;
   max-width: 96%;
-  margin-top: 20%;
+  margin-top: 46px;
   display: flex;
   align-items: center;
   justify-content: center;

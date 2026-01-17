@@ -84,3 +84,49 @@ export async function getCoffeeShopById(coffeeShopId) {
         console.error(error)
     }
 }
+
+
+export async function updateCoffeeShop(
+    coffeeShopId,
+    name,
+    description,
+    address = '',
+    contacts = '',
+    rules = ''
+) {
+    try {
+        let token = getCookie("access_token_admin");
+
+        if (!token){
+            token = getCookie("access_token");
+        }
+
+        const body = {
+            address: address,
+            contacts: contacts,
+            name: name,
+            rules: rules,
+            welcome_message: description
+        };
+
+        console.log(body);
+
+        const response = await fetch(`/api/v1/coffee-shops/${coffeeShopId}`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(body)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Ошибка ${response.status}: ${errorText}`);
+        }
+    } catch (error) {
+        console.error('Ошибка при обновлении идеи:', error);
+        throw error;
+    }
+}
